@@ -93,6 +93,9 @@ def merge_lists(
 
 
 def test() -> None:
+    """
+    Testing function for a custom testcase.
+    """
     list_1: List[
         Dict[
             str | int | object,
