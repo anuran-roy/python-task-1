@@ -1,4 +1,4 @@
-from typing import List, Dict, Union
+from typing import List, Dict
 
 list_1: List[
     Dict[
@@ -14,7 +14,7 @@ list_1: List[
 list_2: List[
     Dict[
         str | int | object,
-        Union[str, int, Dict[str, str | int]]
+        str | int | object
     ]
 ] = [
     {"id": "1", "marks": 100},
@@ -79,15 +79,52 @@ def merge_lists(
         ]
     ] = []
 
-    for id in map_1.keys():
+    for id in set(list(map_1.keys()) + list(map_2.keys())):
         try:
-            list_3.append(map_1[id] | map_2[id])
+            list_3.append(map_1[id] | map_2[id])  # Merge
         except KeyError:
-            list_3.append(map_1[id])
+            try:
+                list_3.append(map_1[id])
+            except KeyError:
+                list_3.append(map_2[id])
 
-    print(list_3)
+    # print(list_3)
     return list_3
 
+
+def test() -> None:
+    list_1: List[
+        Dict[
+            str | int | object,
+            str | int
+        ]
+    ] = [
+        # {"id": "1", "name": "Shrey", "age": 25},
+        {"id": "3", "age": 10, "name": "Hello"},
+        {"id": "2", "name": "World", "age": 24},
+    ]
+
+    list_2: List[
+        Dict[
+            str | int | object,
+            str | int | object
+        ]
+    ] = [
+        {"id": "1", "marks": 100},
+        {
+            "id": "3",
+            "marks": 90,
+            "roll_no": 11,
+            "extra_info": {
+                "hello": "world",
+            },
+        },
+    ]
+
+    print(merge_lists(list_1, list_2))
+
+
+# test()
 
 list_3: List[
     Dict[
