@@ -1,10 +1,12 @@
-list_1 = [
+from typing import List, Dict, Union
+
+list_1: List[Dict[str, Union[str, int]]] = [
     {"id": "1", "name": "Shrey", "age": 25},
     {"id": "3", "age": 10, "name": "Hello"},
     {"id": "2", "name": "World", "age": 24},
 ]
 
-list_2 = [
+list_2: List[Dict[str, Union[str, int, Dict[str, Union[str, int]]]]] = [
     {"id": "1", "marks": 100},
     {
         "id": "3",
@@ -17,7 +19,10 @@ list_2 = [
 ]
 
 
-def merge_lists(list_1, list_2) -> list:
+def merge_lists(
+    list_1: List[Dict[str, Union[str, int]]],
+    list_2: List[Dict[str, Union[str, int]]]
+) -> List[Dict[str, Union[str, int]]]:
     """
     Complete this function, by merging the information from list_1 and list_2
     to create a new list, which has all the information about each student from
@@ -28,5 +33,24 @@ def merge_lists(list_1, list_2) -> list:
     """
     # return list_3
 
+    map_1: Dict[str, Dict[str, Union[str, int, object]]] = {
+        dict1["id"]: dict1 for dict1 in list_1
+    }
 
-list_3 = merge_lists(list_1, list_2)
+    map_2: Dict[str, Dict[str, Union[str, int, object]]] = {
+        dict2["id"]: dict2 for dict2 in list_2
+    }
+
+    list_3: List[Dict[str, Union[str, int, object]]] = []
+
+    for id in map_1.keys():
+        try:
+            list_3.append(map_1[id] | map_2[id])
+        except KeyError:
+            list_3.append(map_1[id])
+
+    print(list_3)
+    return list_3
+
+
+list_3: List[Dict[str, Union[str, int]]] = merge_lists(list_1, list_2)
